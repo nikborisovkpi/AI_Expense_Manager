@@ -109,10 +109,10 @@ AI_Expense_Manager/
 - [x] Верифікація: юніт- та інтеграційні тести математичної точності подвійних цін, незмінності історичних snapshot-полів та захисту системних довідників.
 
 ### Phase 4: Timezone-Aware Budgets, Analytics & Cached Insights
-- [ ] Реалізувати `/budgets` (`GET`, `POST`, `PATCH`, `DELETE`, `GET /status`) із границями місяців у `profiles.timezone`, фільтрацією за валютою бюджету та порогами попереджень.
-- [ ] Реалізувати `/analytics/*` (`summary` із розбивкою `food_spending` vs `household_spending`, `categories`, `stores`, `trends`, `top-products`, `price-changes`, `household-spending`) виключно за підтвердженими покупками (`effective_total_price`, згруповано за `currency`).
-- [ ] Реалізувати `GET /dashboard/insights` (читання виключно з кешу `dashboard_insights`) та механізм інвалідації `data_version` з фоновим оновленням у воркері (debounce 20 с) після змін покупок.
-- [ ] Верифікація: тести часових поясів на межі місяця, ізоляції різних валют та відсутності викликів LLM під час `GET /dashboard/insights`.
+- [x] Реалізувати `/budgets` (`GET`, `POST`, `PATCH`, `DELETE`, `GET /status`) із границями місяців у `profiles.timezone`, фільтрацією за валютою бюджету та порогами попереджень.
+- [x] Реалізувати `/analytics/*` (`summary` із розбивкою `food_spending` vs `household_spending`, `categories`, `stores`, `trends`, `top-products`, `price-changes`, `household-spending`) виключно за підтвердженими покупками (`effective_total_price`, згруповано за `currency`).
+- [x] Реалізувати `GET /dashboard/insights` (читання виключно з кешу `dashboard_insights`) та механізм інвалідації `data_version` з фоновим оновленням у воркері (debounce 20 с) після змін покупок.
+- [x] Верифікація: тести часових поясів на межі місяця, ізоляції різних валют та відсутності викликів LLM під час `GET /dashboard/insights`.
 
 ### Phase 5: Provider-Agnostic OpenRouter Client & Async Receipt Scanner Pipeline
 - [ ] Реалізувати `app/ai/client.py` (Pydantic AI + OpenRouter): підтримка будь-яких сумісних моделей (`anthropic/claude-*`, `openai/gpt-*`) через `.env`, примусова передача `provider: {zdr: true, data_collection: "deny", require_parameters: true}`, каскад `OPENROUTER_FALLBACK_MODELS`, таймаути та ліміти токенів.
