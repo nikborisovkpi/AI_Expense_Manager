@@ -44,10 +44,18 @@ class BaseRepository[ModelT]:
         )
         return stmt
 
-    async def get_by_id(self, record_id: uuid.UUID) -> ModelT | None:
-        stmt = self.scoped_select().where(self._model.id == record_id)
+    async def scalar_one_or_none(self, stmt: Select[tuple[ModelT]]) -> ModelT | None:
         result: ModelT | None = await self._session.scalar(stmt)
         return result
+
+    async def list_matching(self, stmt: Select[tuple[ModelT]]) -> list[ModelT]:
+        result = await self._session.scalars(stmt)
+        rows: list[ModelT] = list(result.all())  # type: ignore[arg-type]
+        return rows
+
+    async def get_by_id(self, record_id: uuid.UUID) -> ModelT | None:
+        stmt = self.scoped_select().where(self._model.id == record_id)
+        return await self.scalar_one_or_none(stmt)
 
     async def get_by_id_or_raise(self, record_id: uuid.UUID) -> ModelT:
         instance = await self.get_by_id(record_id)
@@ -57,9 +65,7 @@ class BaseRepository[ModelT]:
 
     async def list_all(self, *, limit: int = 100, offset: int = 0) -> list[ModelT]:
         stmt = self.scoped_select().limit(limit).offset(offset)
-        result = await self._session.scalars(stmt)
-        rows: list[ModelT] = list(result.all())  # type: ignore[arg-type]
-        return rows
+        return await self.list_matching(stmt)
 
     async def create(self, **fields: Any) -> ModelT:
         fields.pop("user_id", None)

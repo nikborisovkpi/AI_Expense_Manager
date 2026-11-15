@@ -100,13 +100,13 @@ AI_Expense_Manager/
 - [x] Верифікація: інтеграційні cross-user тести `BaseRepository` (`user_a` vs `user_b`) для всіх користувацьких моделей; тест конкурентного першого старту профілю.
 
 ### Phase 3: Core Catalog (Categories, Stores, Products, Aliases) & Manual Purchases
-- [ ] Реалізувати детермінований сервіс одиниць виміру та подвійного ціноутворення (`pricing.py`):
+- [x] Реалізувати детермінований сервіс одиниць виміру та подвійного ціноутворення (`pricing.py`):
   - нормалізація `g -> kg`, `ml -> l`;
   - обчислення `effective_total_price` (точний розподіл знижок, SGR/тари й округлення до `purchases.amount`);
   - обчислення `regular_standard_unit_price` (без знижок — для порівняння магазинів) та `paid_standard_unit_price` (зі знижками — для витрат).
-- [ ] Реалізувати API `/categories`, `/store-chains`, `/stores` (із редагованим `display_name` та soft-archive `is_active=false`), `/products` (пошук, фільтри, soft-archive), `/product-aliases` (`confirm`/`reject`).
-- [ ] Реалізувати API `/purchases` та `/purchase-items` (CRUD, ідемпотентність створення, snapshot-поля категорії/батьківської категорії/одиниць; при `DELETE /purchases/{id}` — скидання `receipts.purchase_id = NULL` та повернення чека у `needs_review`).
-- [ ] Верифікація: юніт- та інтеграційні тести математичної точності подвійних цін, незмінності історичних snapshot-полів та захисту системних довідників.
+- [x] Реалізувати API `/categories`, `/store-chains`, `/stores` (із редагованим `display_name` та soft-archive `is_active=false`), `/products` (пошук, фільтри, soft-archive), `/product-aliases` (`confirm`/`reject`).
+- [x] Реалізувати API `/purchases` та `/purchase-items` (CRUD, ідемпотентність створення, snapshot-поля категорії/батьківської категорії/одиниць; при `DELETE /purchases/{id}` — скидання `receipts.purchase_id = NULL` та повернення чека у `needs_review`).
+- [x] Верифікація: юніт- та інтеграційні тести математичної точності подвійних цін, незмінності історичних snapshot-полів та захисту системних довідників.
 
 ### Phase 4: Timezone-Aware Budgets, Analytics & Cached Insights
 - [ ] Реалізувати `/budgets` (`GET`, `POST`, `PATCH`, `DELETE`, `GET /status`) із границями місяців у `profiles.timezone`, фільтрацією за валютою бюджету та порогами попереджень.
