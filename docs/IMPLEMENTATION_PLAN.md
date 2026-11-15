@@ -92,12 +92,12 @@ AI_Expense_Manager/
 - [x] Верифікація: проходження лінтерів, типізації та базового тесту `/api/v1/health`.
 
 ### Phase 2: Database Migrations, Seeds, `BaseRepository` & Local Profile
-- [ ] Описати SQLAlchemy 2.x моделі всіх таблиць MVP та згенерувати початкову міграцію Alembic (включно з `CHECK`, `UNIQUE`, FK `RESTRICT`/`SET NULL` та індексами з розділу 5.3).
-- [ ] Реалізувати ідемпотентний `app/db/seed.py`: дворівневе дерево системних категорій із полем `macro_group ('food' | 'household')` + глобальний каталог `store_chains` (румунські, українські мережі та fallback `'other'`).
-- [ ] Реалізувати `BaseRepository` із жорсткою ін’єкцією серверного `user_id` для всіх операцій читання/запису та перевіркою власності зв’язаних сутностей.
-- [ ] Реалізувати ідемпотентний бутстрап локального профілю через `app_installation` з автовизначенням таймзони сервера (`tzlocal`) і валютою `RON`.
-- [ ] Реалізувати сервіс приватного Supabase Storage та роутер профілю: `GET /profile`, `PATCH /profile` (включно з `preferences`), `POST /profile/avatar`, `GET /profile/avatar` (потоковий проксі), `DELETE /profile/avatar`.
-- [ ] Верифікація: інтеграційні cross-user тести `BaseRepository` (`user_a` vs `user_b`) для всіх користувацьких моделей; тест конкурентного першого старту профілю.
+- [x] Описати SQLAlchemy 2.x моделі всіх таблиць MVP та згенерувати початкову міграцію Alembic (включно з `CHECK`, `UNIQUE`, FK `RESTRICT`/`SET NULL` та індексами з розділу 5.3).
+- [x] Реалізувати ідемпотентний `app/db/seed.py`: дворівневе дерево системних категорій із полем `macro_group ('food' | 'household')` + глобальний каталог `store_chains` (румунські, українські мережі та fallback `'other'`).
+- [x] Реалізувати `BaseRepository` із жорсткою ін’єкцією серверного `user_id` для всіх операцій читання/запису та перевіркою власності зв’язаних сутностей.
+- [x] Реалізувати ідемпотентний бутстрап локального профілю через `app_installation` з автовизначенням таймзони сервера (`tzlocal`) і валютою `RON`.
+- [x] Реалізувати сервіс приватного Supabase Storage та роутер профілю: `GET /profile`, `PATCH /profile` (включно з `preferences`), `POST /profile/avatar`, `GET /profile/avatar` (потоковий проксі), `DELETE /profile/avatar`.
+- [x] Верифікація: інтеграційні cross-user тести `BaseRepository` (`user_a` vs `user_b`) для всіх користувацьких моделей; тест конкурентного першого старту профілю.
 
 ### Phase 3: Core Catalog (Categories, Stores, Products, Aliases) & Manual Purchases
 - [ ] Реалізувати детермінований сервіс одиниць виміру та подвійного ціноутворення (`pricing.py`):
