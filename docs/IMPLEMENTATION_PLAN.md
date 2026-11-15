@@ -115,16 +115,16 @@ AI_Expense_Manager/
 - [x] Верифікація: тести часових поясів на межі місяця, ізоляції різних валют та відсутності викликів LLM під час `GET /dashboard/insights`.
 
 ### Phase 5: Provider-Agnostic OpenRouter Client & Async Receipt Scanner Pipeline
-- [ ] Реалізувати `app/ai/client.py` (Pydantic AI + OpenRouter): підтримка будь-яких сумісних моделей (`anthropic/claude-*`, `openai/gpt-*`) через `.env`, примусова передача `provider: {zdr: true, data_collection: "deny", require_parameters: true}`, каскад `OPENROUTER_FALLBACK_MODELS`, таймаути та ліміти токенів.
-- [ ] Реалізувати ендпоінти життєвого циклу чеків: `POST /receipts/upload`, `GET /receipts`, `GET /receipts/{id}/status`, `GET /receipts/{id}/result`, `GET /receipts/{id}/file` (проксі з приватного Storage), `POST /receipts/{id}/retry`, `POST /receipts/{id}/cancel`, `DELETE /receipts/{id}`.
-- [ ] Реалізувати `watchdog.py` та `receipt_worker.py` у `lifespan` FastAPI: атомарне захоплення задач через `SELECT ... FOR UPDATE SKIP LOCKED` із lease, відновлення прострочених leases після сну/рестарту, конвертація PDF у зображення в пам’яті.
-- [ ] Реалізувати Vision-екстракцію, пошук підтверджених `product_aliases`, класифікацію категорій, виділення SGR/тари у `container_deposit_total`, детерміновану звірку сум та детекцію дублікатів (`file_hash`, `receipt_fingerprint`) із переведенням у `needs_review` при розбіжностях.
-- [ ] Верифікація: тести конкурентних воркерів, відновлення після збою watchdog-ом, арифметичної валідації чеків та ZDR-обмежень клієнта.
+- [x] Реалізувати `app/ai/client.py` (Pydantic AI + OpenRouter): підтримка будь-яких сумісних моделей (`anthropic/claude-*`, `openai/gpt-*`) через `.env`, примусова передача `provider: {zdr: true, data_collection: "deny", require_parameters: true}`, каскад `OPENROUTER_FALLBACK_MODELS`, таймаути та ліміти токенів.
+- [x] Реалізувати ендпоінти життєвого циклу чеків: `POST /receipts/upload`, `GET /receipts`, `GET /receipts/{id}/status`, `GET /receipts/{id}/result`, `GET /receipts/{id}/file` (проксі з приватного Storage), `POST /receipts/{id}/retry`, `POST /receipts/{id}/cancel`, `DELETE /receipts/{id}`.
+- [x] Реалізувати `watchdog.py` та `receipt_worker.py` у `lifespan` FastAPI: атомарне захоплення задач через `SELECT ... FOR UPDATE SKIP LOCKED` із lease, відновлення прострочених leases після сну/рестарту, конвертація PDF у зображення в пам’яті.
+- [x] Реалізувати Vision-екстракцію, пошук підтверджених `product_aliases`, класифікацію категорій, виділення SGR/тари у `container_deposit_total`, детерміновану звірку сум та детекцію дублікатів (`file_hash`, `receipt_fingerprint`) із переведенням у `needs_review` при розбіжностях.
+- [x] Верифікація: тести конкурентних воркерів, відновлення після збою watchdog-ом, арифметичної валідації чеків та ZDR-обмежень клієнта.
 
 ### Phase 6: Receipt Draft Review, Confirmation & Store Price Comparison
-- [ ] Реалізувати `PATCH /receipts/{id}/draft` (редагування чернетки користувачем із перерахунком попереджень) та `POST /receipts/{id}/confirm` (атомарна ідемпотентна транзакція створення магазину — включно з невідомими магазинами через мережу `'other'` — товарів, аліасів, покупки й позицій).
-- [ ] Реалізувати `GET /products/{id}/price-history` (історія і регулярних, і фактично сплачених цін) та `GET /products/{id}/store-comparison` (порівняння оригінальних цін без знижок `regular_standard_unit_price` за `кг`/`л`/`шт.` між мережами/магазинами з датами спостережень та перевіркою достатності даних).
-- [ ] Верифікація: тести ідемпотентного підтвердження, збереження/редагування невідомого магазину з чека та коректного порівняння базових цін без викривлення акційними знижками.
+- [x] Реалізувати `PATCH /receipts/{id}/draft` (редагування чернетки користувачем із перерахунком попереджень) та `POST /receipts/{id}/confirm` (атомарна ідемпотентна транзакція створення магазину — включно з невідомими магазинами через мережу `'other'` — товарів, аліасів, покупки й позицій).
+- [x] Реалізувати `GET /products/{id}/price-history` (історія і регулярних, і фактично сплачених цін) та `GET /products/{id}/store-comparison` (порівняння оригінальних цін без знижок `regular_standard_unit_price` за `кг`/`л`/`шт.` між мережами/магазинами з датами спостережень та перевіркою достатності даних).
+- [x] Верифікація: тести ідемпотентного підтвердження, збереження/редагування невідомого магазину з чека та коректного порівняння базових цін без викривлення акційними знижками.
 
 ### Phase 7: AI Shopping Assistant (Read-Only Tools & SSE Streaming)
 - [ ] Реалізувати головного агента (`shopping_agent.py`) та 10 типізованими read-only тулів (`get_purchases`, `get_spending_summary`, `get_category_spending`, `get_budget_status`, `get_product_price_history`, `compare_store_prices`, `get_top_products`, `get_price_changes`, `search_products`, `get_shopping_lists`) із метаданими `period`, `currency`, `observation_count`, `last_observation_date`, `source_record_ids`, `data_sufficiency`.

@@ -1,9 +1,10 @@
-"""FastAPI application factory and lifespan bootstrap."""
+"""FastAPI application factory and lifespan bootstrap (including watchdog + in-process worker)."""
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,6 +18,8 @@ from app.db.seed import seed_reference_data
 from app.db.session import build_engine, build_session_factory
 from app.services.profile_service import bootstrap_local_profile
 from app.services.storage_service import PrivateStorageService, build_storage_service
+from app.workers.receipt_worker import run_background_worker_loop
+from app.workers.watchdog import recover_expired_receipt_leases
 
 
 def create_app(
@@ -35,6 +38,9 @@ def create_app(
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+        stop_event = asyncio.Event()
+        worker_task: asyncio.Task[None] | None = None
+
         if resolved_settings.environment != "test":
             async with resolved_session_factory() as session:
                 await seed_reference_data(session)
@@ -43,9 +49,24 @@ def create_app(
                 default_currency=resolved_settings.default_currency,
                 default_locale=resolved_settings.default_locale,
             )
+            # Startup watchdog runs BEFORE worker begins polling (Blueprint Section 7.1)
+            await recover_expired_receipt_leases(resolved_session_factory)
+            worker_task = asyncio.create_task(
+                run_background_worker_loop(
+                    session_factory=resolved_session_factory,
+                    storage=resolved_storage,
+                    settings=resolved_settings,
+                    stop_event=stop_event,
+                )
+            )
         try:
             yield
         finally:
+            stop_event.set()
+            if worker_task is not None:
+                worker_task.cancel()
+                with suppress(asyncio.CancelledError):
+                    await worker_task
             if owns_engine and engine is not None:
                 await engine.dispose()
 
