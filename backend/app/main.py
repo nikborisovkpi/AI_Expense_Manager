@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from app.ai.agents.shopping_agent import AgentModelRunner
 from app.api.v1.router import api_v1_router
 from app.core.config import Settings, get_settings
 from app.core.errors import register_exception_handlers
@@ -27,6 +28,7 @@ def create_app(
     *,
     session_factory: async_sessionmaker[AsyncSession] | None = None,
     storage_service: PrivateStorageService | None = None,
+    agent_runner: AgentModelRunner | None = None,
 ) -> FastAPI:
     resolved_settings = settings or get_settings()
     configure_logging(resolved_settings.environment)
@@ -80,6 +82,7 @@ def create_app(
     application.state.settings = resolved_settings
     application.state.session_factory = resolved_session_factory
     application.state.storage_service = resolved_storage
+    application.state.agent_runner = agent_runner
 
     application.add_middleware(
         CORSMiddleware,

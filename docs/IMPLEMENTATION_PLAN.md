@@ -127,14 +127,14 @@ AI_Expense_Manager/
 - [x] Верифікація: тести ідемпотентного підтвердження, збереження/редагування невідомого магазину з чека та коректного порівняння базових цін без викривлення акційними знижками.
 
 ### Phase 7: AI Shopping Assistant (Read-Only Tools & SSE Streaming)
-- [ ] Реалізувати головного агента (`shopping_agent.py`) та 10 типізованими read-only тулів (`get_purchases`, `get_spending_summary`, `get_category_spending`, `get_budget_status`, `get_product_price_history`, `compare_store_prices`, `get_top_products`, `get_price_changes`, `search_products`, `get_shopping_lists`) із метаданими `period`, `currency`, `observation_count`, `last_observation_date`, `source_record_ids`, `data_sufficiency`.
-- [ ] Реалізувати детермінований резолвер дат у `profiles.timezone`, уточнення неоднозначних товарів, збереження `conversations`/`messages` та `POST /agent/chat` зі стрімінгом **SSE**.
-- [ ] Верифікація: тести SSE-стрімінгу, обробки `insufficient_data` та відповідності чисел у відповідях результатам тулів.
+- [x] Реалізувати головного агента (`shopping_agent.py`) та 10 типізованими read-only тулів (`get_purchases`, `get_spending_summary`, `get_category_spending`, `get_budget_status`, `get_product_price_history`, `compare_store_prices`, `get_top_products`, `get_price_changes`, `search_products`, `get_shopping_lists`) із метаданими `period`, `currency`, `observation_count`, `last_observation_date`, `source_record_ids`, `data_sufficiency`.
+- [x] Реалізувати детермінований резолвер дат у `profiles.timezone`, уточнення неоднозначних товарів, збереження `conversations`/`messages` та `POST /agent/chat` зі стрімінгом **SSE**.
+- [x] Верифікація: тести SSE-стрімінгу, обробки `insufficient_data` та відповідності чисел у відповідях результатам тулів.
 
 ### Phase 8: Approval-Gated Agent Actions & Shopping Lists
-- [ ] Реалізувати CRUD списків покупок (`/shopping-lists`, `/shopping-list-items`) із розрахунком оціночної вартості (`estimated_price`) на основі останніх спостережень.
-- [ ] Реалізувати таблицю й сервіс `agent_actions` для рівно 3 write-пропозицій (`create_budget`, `create_shopping_list`, `add_shopping_list_item`) із паузою агента, SSE-подією `action_required` та синхронними ендпоінтами `POST /agent/actions/{id}/approve` і `/reject` (перевірка власника, `expires_at`, `arguments_hash`, `idempotency_key`, запис підсумкового повідомлення в історію без зайвого виклику LLM).
-- [ ] Верифікація: тести захисту від несанкціонованих мутацій, прострочених дій, підміни хешу аргументів та повторного підтвердження.
+- [x] Реалізувати CRUD списків покупок (`/shopping-lists`, `/shopping-list-items`) із розрахунком оціночної вартості (`estimated_price`) на основі останніх спостережень.
+- [x] Реалізувати таблицю й сервіс `agent_actions` для рівно 3 write-пропозицій (`create_budget`, `create_shopping_list`, `add_shopping_list_item`) із паузою агента, SSE-подією `action_required` та синхронними ендпоінтами `POST /agent/actions/{id}/approve` і `/reject` (перевірка власника, `expires_at`, `arguments_hash`, `idempotency_key`, запис підсумкового повідомлення в історію без зайвого виклику LLM).
+- [x] Верифікація: тести захисту від несанкціонованих мутацій, прострочених дій, підміни хешу аргументів та повторного підтвердження.
 
 ### Phase 9: Next.js Frontend Implementation (All 9 Screens)
 - [ ] Побудувати адаптивний layout, API-клієнт та TanStack Query хуки.
